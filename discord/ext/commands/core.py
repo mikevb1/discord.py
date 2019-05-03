@@ -410,6 +410,8 @@ class Command(_BaseCommand):
         if converter is param.empty:
             if param.default is not param.empty and not issubclass(param.default, defaults.CustomDefault):
                 converter = str if param.default is None else type(param.default)
+            elif issubclass(param.default, defaults.CustomDefault):
+                converter = typing.Union[param.default.converters]
             else:
                 converter = str
         return converter
